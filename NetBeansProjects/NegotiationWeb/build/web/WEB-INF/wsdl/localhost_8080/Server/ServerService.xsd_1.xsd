@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.1.1-b09 (branches/2.1-6834; 2011-07-16T17:14:48+0000) JAXWS-RI/2.2.5-promoted-b04 JAXWS/2.2. --><xs:schema xmlns:tns="http://ws.negotiation/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.negotiation/">
+
+<xs:element name="add" type="tns:add"/>
+
+<xs:element name="addResponse" type="tns:addResponse"/>
+
+<xs:element name="candidate" type="tns:candidate"/>
+
+<xs:element name="getAllData" type="tns:getAllData"/>
+
+<xs:element name="getAllDataResponse" type="tns:getAllDataResponse"/>
+
+<xs:element name="getInterlocutors" type="tns:getInterlocutors"/>
+
+<xs:element name="getInterlocutorsResponse" type="tns:getInterlocutorsResponse"/>
+
+<xs:element name="getMessageFrom" type="tns:getMessageFrom"/>
+
+<xs:element name="getMessageFromResponse" type="tns:getMessageFromResponse"/>
+
+<xs:element name="issue" type="tns:issue"/>
+
+<xs:element name="send" type="tns:send"/>
+
+<xs:element name="simpleMessage" type="tns:simpleMessage"/>
+
+<xs:element name="update" type="tns:update"/>
+
+<xs:element name="updateResponse" type="tns:updateResponse"/>
+
+<xs:complexType name="getAllData">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getAllDataResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:advertisement" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="advertisement">
+<xs:sequence>
+<xs:element name="status" type="tns:status" minOccurs="0"/>
+<xs:element name="type" type="tns:agentType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="send">
+<xs:sequence>
+<xs:element name="message" type="tns:simpleMessage" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="simpleMessage">
+<xs:sequence>
+<xs:element name="from" type="tns:candidate" minOccurs="0"/>
+<xs:element name="id" type="xs:int"/>
+<xs:element name="issues" type="tns:issue" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="replyId" type="xs:int"/>
+<xs:element name="to" type="tns:candidate" minOccurs="0"/>
+<xs:element name="type" type="tns:messageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="candidate">
+<xs:sequence>
+<xs:element name="agent" type="xs:string" minOccurs="0"/>
+<xs:element name="product" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="issue">
+<xs:sequence>
+<xs:element name="cost" type="xs:float"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="update">
+<xs:sequence>
+<xs:element name="ad" type="tns:advertisement" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:advertisement" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMessageFrom">
+<xs:sequence>
+<xs:element name="fromAgent" type="xs:string" minOccurs="0"/>
+<xs:element name="fromProduct" type="xs:string" minOccurs="0"/>
+<xs:element name="toAgent" type="xs:string" minOccurs="0"/>
+<xs:element name="toProduct" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getMessageFromResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:simpleMessage" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getInterlocutors">
+<xs:sequence>
+<xs:element name="agent" type="xs:string" minOccurs="0"/>
+<xs:element name="product" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getInterlocutorsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:candidate" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="add">
+<xs:sequence>
+<xs:element name="agent" type="xs:string" minOccurs="0"/>
+<xs:element name="type" type="tns:agentType" minOccurs="0"/>
+<xs:element name="product" type="xs:string" minOccurs="0"/>
+<xs:element name="attributeNames" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="status">
+<xs:restriction base="xs:string">
+<xs:enumeration value="New"/>
+<xs:enumeration value="Searching"/>
+<xs:enumeration value="Matched"/>
+<xs:enumeration value="Busy"/>
+<xs:enumeration value="Successful"/>
+<xs:enumeration value="Failed"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="agentType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Buyer"/>
+<xs:enumeration value="Seller"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="messageType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Hello"/>
+<xs:enumeration value="Send"/>
+<xs:enumeration value="Accept"/>
+<xs:enumeration value="AcceptAcknowledge"/>
+<xs:enumeration value="Reject"/>
+<xs:enumeration value="Finalize"/>
+<xs:enumeration value="FinalizeAcknowledge"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

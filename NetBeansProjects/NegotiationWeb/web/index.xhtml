@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui">
+    <h:head>
+        <title>Zephyr::Agent Login</title>
+        <link rel="stylesheet" type="text/css" href="css/login.css"/>
+        <link rel="stylesheet" type="text/css" href="css/background.css"/>
+        <link rel="stylesheet" type="text/css" href="css/ContactUs.css"/>
+
+        <style type="text/css">
+            div.cssFloatMenu {  margin: 0;  position: fixed;
+                                top: 80px;  left: auto;  width: 100px;  right: 20px;}
+
+            div.cssFloatMenu a, div.cssFloatMenu em
+            { display: block; margin: 0 2px }
+            div.cssFloatMenu a, div.cssFloatMenu em { border-top: 2px groove #003366 }
+            div.cssFloatMenu a:first-child { border-top: none }
+            div.cssFloatMenu em { color: #003366}
+            div.cssFloatMenu em:first-child { border-top: none }
+
+            div.cssFloatMenu a:link { text-decoration: none; color: #800000 }
+            div.cssFloatMenu a:visited { text-decoration: none; color: #0000FF }
+            div.cssFloatMenu a:hover { background: #003366; color: white }
+        </style>
+    </h:head>
+
+    <h:body styleClass="background">
+        <div class="divFloatMenu">
+            <a href="http://data.bangtech.com">Technologies</a>
+            <em>Content:</em>
+            <a href="http://content.bangtech.com">Warehouse</a>
+        </div>
+        <h:graphicImage value="resources/header.jpg" styleClass="header"/>
+        <pou:toolbar>
+
+            <pou:toolbarGroup align="right">
+                <h:form>
+                    <pou:commandButton value="Create new account" action="#{agentController.createNewAccount()}"
+                                       ajax="false" rendered="false"/>
+                </h:form>
+            </pou:toolbarGroup>
+        </pou:toolbar>
+
+        <h:form id="input">
+            <div class="image_swicher">
+                <pou:imageSwitch effect="fade" widgetVar="switcher" slideshowAuto="true" >  
+                    <ui:repeat value="#{formatterBean.images}" var="image">
+                        <h:graphicImage value="resources/#{image}" class="image_element"/>
+                    </ui:repeat>
+                </pou:imageSwitch>
+            </div>
+
+
+            <pou:growl showDetail="true"/>
+            <hr/>
+            <h:panelGrid id="formTable" columns="1" class="login" >
+                <h:outputLabel for="Name" value="Name"/>
+                <pou:inputText value="#{agentController.name}" label="Name" required="true"/>
+                <h:outputLabel for="password" value="Password"/>
+                <pou:password id="p_password" value="#{agentController.password}" label="Password" feedback="true" minLength="4"/>
+                <pou:commandButton value="Sign In" action="#{agentController.login()}" ajax="false"/>
+                <h:message for="password"/>
+                <br/><hr/>
+                <h:outputText value="Don't have a Zephyr account?"/>
+                <pou:commandLink value="Create an account" action="#{agentController.createNewAccount()}"/>
+            </h:panelGrid>
+        </h:form>
+
+
+        <!--div id="footer" style="position:absolute;bottom:0px;"-->
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><center>
+            <hr/><font face="ARIAL" size="1">
+                <A href="https://www.facebook.com/pages/Zephyr/169996089736008">Company</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Careers</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Partners</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Advertising</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Help</A><br/><A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Privacy 
+                    Policy</A>.&nbsp;
+                <A href="https://www.facebook.com/pages/Zephyr/169996089736008">Trademark 
+                    Notices</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">User 
+                    Agreement</A><bR/>© 2012 Zephyr, All Rights 
+                Reserved.</font> 
+        </center>
+
+
+
+    </h:body>
+
+</html>

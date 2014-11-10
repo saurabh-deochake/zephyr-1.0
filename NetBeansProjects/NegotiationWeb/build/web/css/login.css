@@ -1,0 +1,24 @@
+root { 
+    display: block;
+}
+
+.login {
+    position: absolute;
+    right:20px;
+    width:300px;
+    padding-top: 80px;
+    
+}
+
+.image_element {
+    padding-top: 100px;
+    width: 800px;
+    height: 600px
+}
+
+.image_swicher {
+    margin-left: auto;
+    margin-right: auto;
+    float: left
+}
+

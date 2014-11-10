@@ -1,0 +1,45 @@
+/* 
+    Document   : ContactUs
+    Created on : Mar 31, 2012, 2:36:37 AM
+    Author     : Saurabh
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.iconlist
+{
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+li.fb
+{
+background-image: url(C:\Users\Saurabh\Desktop\zephyr\NetBeansProjects\NegotiationWeb\web\resources\facebook.jpg);
+background-repeat: no-repeat;
+background-position: 0 50%;
+padding: 3px 0 3px 20px;
+margin: .4em 0;
+}
+
+li.in
+{
+background-image: url(resources/linkedin.jpg);
+background-repeat: no-repeat;
+background-position: 0 50%;
+padding: 3px 0 3px 20px;
+margin: .4em 0;
+}
+
+li.yt
+{
+background-image: url(resources/youtube.jpg);
+background-repeat: no-repeat;
+background-position: 0 50%;
+padding: 3px 0 3px 20px;
+margin: .4em 0;
+}

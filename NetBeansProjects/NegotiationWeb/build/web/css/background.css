@@ -1,0 +1,32 @@
+/* 
+    Document   : background
+    Created on : Mar 30, 2012, 9:12:31 PM
+    Author     : Saurabh
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+
+
+.background {
+    background-color: white;
+}
+
+.header {
+    
+   float: top;
+   image-resolution: from-image;
+   top: 0;
+   left:0;
+   right:0;
+   position: absolute;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}

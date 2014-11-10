@@ -1,0 +1,17 @@
+root { 
+    display: block;
+}
+
+.agent {
+    alignment-adjust: auto;
+    font-style: normal;
+    color: #000000;
+}
+.agent_padding{
+   
+}
+
+.toolbar{
+    color:goldenrod;
+    
+}

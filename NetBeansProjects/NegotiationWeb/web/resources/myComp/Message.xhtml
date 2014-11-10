@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="offer" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:outputText value="Message Type:#{cc.attrs.offer.type}"/>
+        <h:outputText value="Sender ID:#{cc.attrs.offer.id}"/>
+        <h:outputText value="Reply ID:#{cc.attrs.offer.replyId}"/>
+        <h:outputText value="From:#{cc.attrs.offer.from.agent}.#{cc.attrs.offer.from.product}"/>
+        <h:outputText value="To:#{cc.attrs.offer.to.agent}.#{cc.attrs.offer.to.product}"/>
+        <h:outputText value="To:#{cc.attrs.offer.issues.size()}"/>
+        <c:forEach value="#{cc.attrs.offer.issues}" var="issue">
+            <h:outputText value="#{issue.name}"/>
+            <h:outputText value="#{issue.name}"/>
+            <h:outputText value="#{issue.cost}"/>
+        </c:forEach>
+    </cc:implementation>
+</html>

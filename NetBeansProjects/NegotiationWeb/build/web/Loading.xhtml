@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html:stylesheet [
+<!ENTITY nbsp '&#160;'>
+]>
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pou="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:myComp="http://java.sun.com/jsf/composite/myComp">
+<h:head>
+        <title
+            xmlns:pou="http://primefaces.org/ui">Loading...</title>
+        <link rel="stylesheet" type="text/css" href="css/products.css"/>
+        <link rel="stylesheet" type="text/css" href="css/background.css"/>
+        
+        <script type="text/javascript">  
+    function start() {  
+        startButton1.disable();  
+        window['progress'] = setInterval(function() {  
+            var oldValue = pbClient.getValue(),  
+            newValue = oldValue + 10;  
+  
+            pbClient.setValue(pbClient.getValue() + 10);  
+  
+            if(newValue == 100) {  
+                clearInterval(window['progress']);  
+            }  
+  
+  
+        }, 1000);  
+    }  
+  
+    function cancel() {  
+        clearInterval(window['progress']);  
+        pbClient.setValue(0);  
+        startButton1.enable();  
+    }  
+</script>  
+    </h:head>
+
+    <h:body>
+        <h:graphicImage value="resources/header.jpg" styleClass="header"/>
+        <h:form>  
+                  
+    <pou:growl id="growl" />  
+  
+ 
+    <pou:commandButton value="Start" type="button" onclick="pbAjax.start();startButton2.disable();" widgetVar="startButton2" />  
+    <pou:commandButton value="Cancel" actionListener="#{progressBean.cancel}" oncomplete="pbAjax.cancel();startButton2.enable();" />  
+  
+    <pou:progressBar widgetVar="pbAjax" ajax="true" value="#{progressBean.progress}" labelTemplate="{value}%" styleClass="animated">  
+        <pou:ajax event="complete" listener="#{progressBean.onComplete}" update="growl" oncomplete="startButton2.enable()"/>  
+    </pou:progressBar>  
+  
+</h:form>  
+    </h:body>
+</html>

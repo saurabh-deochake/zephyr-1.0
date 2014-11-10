@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Negotiation Server</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputText value="#{outputBean.output}"/>
+            <h:commandButton value="start" action="#{outputBean.postAdvertisement()}" disabled="false">
+                <!--<f:ajax render="@form"/>-->
+            </h:commandButton>
+
+            <h:dataTable value="#{outputBean.advertisements}" var="ad" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Agent"/>
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{ad.id.agent}"/>
+                        <h:outputText value="#{ad.type}"/>
+                    </h:panelGrid>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Attributes"/>
+                    </f:facet>
+                    <h:outputText value="#{ad.id.product}"/>
+                    <h:dataTable value="#{ad.attributes.toArray()}" var="attrib">
+                        <h:column>
+                            <h:outputText value="#{attrib.name}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                    <h:outputText value="#{ad.status}"/>
+                </h:column>
+            </h:dataTable>            
+        </h:form>
+
+        <h:form>
+            <h:commandButton value="refresh"/>
+            <h:dataTable value="#{outputBean.negotiationUnits.toArray()}" var="unit" border="1">
+                <f:facet name="header">
+                    <h:outputText value="Negotiation Space"/>
+                </f:facet>
+
+                <h:column>
+                    <h:outputText value="#{unit}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        
+        <h:form>
+            <h:commandButton value="Agent 1 (symantec) start bidding" action="#{outputBean.bid()}"/>
+            <h:outputText value="#{outputBean.interlocutors}"/>
+            <h:commandButton value="Agent 1 say hello" action="#{outputBean.sayHelloAgent1()}"/>
+            <h:commandButton value="Agent 2 say hello" action="#{outputBean.sayHelloAgent2()}"/>
+            <h:commandButton value="Agent 3 say hello" action="#{outputBean.sayHelloAgent3()}"/>
+            <h:commandButton value="Clear messages" action="#{outputBean.clearMessages()}"/>
+            <h:commandButton value="Refresh"/>
+            <h:dataTable value="#{outputBean.allMessages.toArray()}" var="message">
+                <h:column>
+                    <h:outputText value="#{message.value}"/>
+                </h:column>
+            </h:dataTable>
+            <br/>
+            <h:outputText value="#{outputBean.testGetMessageFrom()}"/>
+        </h:form>
+    </h:body>
+</html>

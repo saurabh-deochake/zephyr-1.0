@@ -1,0 +1,11 @@
+<!--<h:form id="List">
+                <h:outputText value="&quot;#{agentController.name}&quot;" id="temp"/>
+                
+                <h:dataTable var="agent" value="#{agentController.agents}">
+                    <h:column>
+                        <h:commandLink value="#{agent.name}" actionListener="#{agentController.loadPage}" immediate="true"/>
+                    </h:column> 
+                </h:dataTable>
+                
+                <h:outputText value="#{agentController.test}"/>
+            </h:form>-->

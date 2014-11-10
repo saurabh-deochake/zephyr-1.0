@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="css/background.css"/>
+        <link rel="stylesheet" type="text/css" href="css/products.css"/>
+        <title>#{productsController.fromCandidate.agent}:#{productsController.fromCandidate.product}</title>
+
+        <script type="text/javascript">
+            <!--
+            function CurrTime()
+            {
+                var currentTime = new Date()
+                var hours = currentTime.getHours()
+                var minutes = currentTime.getMinutes()
+                if (minutes < 10){
+                    minutes = "0" + minutes
+                }
+                document.write(hours + ":" + minutes + " ")
+                if(hours > 11){
+                    document.write("PM")
+                } else {
+                    document.write("AM")
+                }
+            }
+            //-->
+        </script>
+
+    </h:head>
+    <h:body styleClass="background">
+        <h:graphicImage value="resources/header.jpg" styleClass="header"/>
+        <br/><br/><br/><br/><br/>
+        <pou:toolbar>
+            <pou:toolbarGroup align="right">
+                <h:form>
+                    <pou:commandButton value="Proceed to bidding" action="#{productsController.postAdvertisement()}" ajax="false"/>
+                    <pou:commandButton value="Refresh candidates" action="#{productsController.showInterlocutors()}" ajax="false"/>
+                    <pou:commandButton value="Finalize deal" action="#{negotiationController.finalize()}" rendered="#{negotiationController.activated}" ajax="false"/>
+                    <pou:commandButton value="Sign Out" action="#{agentController.logout()}"/>
+                </h:form>
+            </pou:toolbarGroup>
+            <pou:toolbarGroup align="left">
+
+                <h:outputText value="#{date.getDate()}" styleClass="agent"/> 
+                <br/>
+                <h:outputText value="Welcome #{productsController.agent.name} | " styleClass="agent"/>
+
+
+<!--h:outputText value="ID  : #{productsController.agent.id}" styleClass="agent"/-->
+                <h:outputText value=" Type: #{productsController.agent.type}" styleClass="agent"/>
+            </pou:toolbarGroup>
+        </pou:toolbar>
+        <h:form>
+            <h:outputText value="No. of candidates = #{productsController.interlocutors.size()} : "/>
+            <c:set var="fromAgent" value="#{productsController.fromCandidate.agent}"/>
+            <c:set var="fromProduct" value="#{productsController.fromCandidate.product}"/>
+            <c:set var="type" value="#{productsController.agent.type}"/>
+            <ui:repeat value="#{productsController.interlocutors}" var="candidate">
+                <pou:commandLink value="#{candidate.product}:#{candidate.agent}"
+                                 action="#{negotiationController.initialize(fromAgent, type, fromProduct, productsController.getNegotiableNodes(), candidate)}"
+                                 ajax="false"/>
+                |
+            </ui:repeat>
+        </h:form> 
+        <pou:panel header="Attributes">
+            <h:form>
+                <h:dataTable value="#{productsController.attributeList}" var="attributeContainer"
+                             cellpadding="0" cellspacing="0">
+                    <h:column>
+                        <h:outputText value="#{attributeContainer.space}" rendered="#{attributeContainer.visible}"/>
+                        <h:commandButton value="#{attributeContainer.nodeSymbol} " rendered="#{attributeContainer.nodeVisible}"
+                                         action="#{attributeContainer.toggleExpansion()}">
+                            <f:ajax render="@form"/>
+                        </h:commandButton>
+                        <h:commandLink value="#{attributeContainer.attribute.name}" action="#{attributeContainer.setEditable(true)}" rendered="#{attributeContainer.linkVisible}"/>
+
+                        <h:outputText value="#{attributeContainer.attribute.id}" rendered="#{attributeContainer.editable}"/>
+                        <h:outputLabel for="name" value="Name" rendered="#{attributeContainer.editable}"/>
+                        <h:inputText label="name" value="#{attributeContainer.attribute.name}" rendered="#{attributeContainer.editable}"/>
+                        <h:outputLabel for="actualCost" value="Actual Cost" rendered="#{attributeContainer.editable}"/>
+                        <h:inputText label="actialCost" value="#{attributeContainer.attribute.actualCost}" rendered="#{attributeContainer.editable}"/>
+                        <h:outputLabel for="costWithMargin" value="Cost With Margin" rendered="#{attributeContainer.editable}"/>
+                        <h:inputText label="costWithMargin" value="#{attributeContainer.attribute.costWithMargin}" rendered="#{attributeContainer.editable}"/>
+                        <h:outputLabel for="weight" value="Weight" rendered="#{attributeContainer.editable}"/>
+                        <h:inputText label="Weight" value="#{attributeContainer.attribute.weight}" rendered="#{attributeContainer.editable}"/>
+                        <h:commandButton value="Update" action="#{productsController.update(attributeContainer)}" rendered="#{attributeContainer.editable}"/>
+                        <h:commandButton value="Add sibling" action="#{productsController.addSibling(attributeContainer)}" rendered="#{attributeContainer.editable}"/>
+                        <h:commandButton value="Add child" action="#{productsController.addChild(attributeContainer)}" rendered="#{attributeContainer.editable}"/>
+                        <h:commandButton value="Remove" action="#{productsController.remove(attributeContainer)}" rendered="#{attributeContainer.editable}"/>
+                        <h:outputText value="#{attributeContainer.extendedName}" rendered="#{attributeContainer.editable}"/>
+                    </h:column>
+                </h:dataTable>
+
+            </h:form>
+        </pou:panel>
+
+        <h:form rendered="#{negotiationController.activated}">
+                        <c:forEach items="#{negotiationController.coordinators.toArray()}" var="coordinator">
+                <pou:dialog widgetVar="initialValuesDlg_#{coordinator.id}">
+                    <pou:panelGrid>
+                        <f:facet name="header">
+                            <pou:row>
+                                <pou:column>Name</pou:column>
+                                <pou:column>Actual Cost</pou:column>
+                                <pou:column>Cost with margin</pou:column>
+                                <pou:column>Minimum Utility</pou:column>
+                                <pou:column>Maximum Utility</pou:column>
+                            </pou:row>
+                        </f:facet>
+
+                        <c:forEach items="#{coordinator.issues}" var="issue">
+                            <pou:row>
+                                <pou:column>
+                                    <h:outputText value="#{issue.name}"/>
+                                </pou:column>
+                                <pou:column>
+                                    <h:outputText value="#{issue.actualCost}"/>
+                                </pou:column>
+                                <pou:column>
+                                    <h:outputText value="#{issue.costWithMargin}"/>
+                                </pou:column>
+                                <pou:column>
+                                    <h:outputText value="#{issue.minUtility}"/>
+                                </pou:column>
+                                <pou:column>
+                                    <h:outputText value="#{issue.maxUtility}"/>
+                                </pou:column>
+                            </pou:row>
+                        </c:forEach>
+                        <f:facet name="footer">
+                            <pou:row>
+                                <pou:column colspan="3">
+                                    <h:outputText value="Total"/>
+                                </pou:column>
+                                <pou:column>
+                                    <h:outputText value="#{coordinator.minimumPayoff}"/>
+                                </pou:column>
+                                <pou:column>
+                                    <h:outputText value="#{coordinator.maximumPayoff}"/>
+                                </pou:column>
+                            </pou:row>
+                        </f:facet>
+                    </pou:panelGrid>
+                </pou:dialog>
+
+                <pou:dialog widgetVar="finalDlg_#{coordinator.id}">
+                    <pou:outputPanel autoUpdate="true">
+                        <pou:panelGrid>
+                            <f:facet name="header">
+                                <pou:row>
+                                    <pou:column>Name</pou:column>
+                                    <pou:column>Cost</pou:column>
+                                </pou:row>
+                            </f:facet>
+
+                            <c:forEach items="#{coordinator.result}" var="issue">
+                                <pou:row>
+                                    <pou:column>
+                                        <h:outputText value="#{issue.name}"/>
+                                    </pou:column>
+                                    <pou:column>
+                                        <h:outputText value="#{issue.actualCost}"/>
+                                    </pou:column>
+                                </pou:row>
+                            </c:forEach>
+                            <f:facet name="footer">
+                                <pou:row>
+                                    <pou:column>
+                                        <h:outputText value="Total"/>
+                                    </pou:column>
+                                    <pou:column>
+                                        <h:outputText value="#{coordinator.finalCost}"/>
+                                    </pou:column>
+                                </pou:row>
+                            </f:facet>
+                        </pou:panelGrid>
+                    </pou:outputPanel>
+                </pou:dialog>
+
+                <pou:poll listener="#{coordinator.getNewReply}" autoStart="true" interval="2" 
+                          update="#{coordinator.to.agent}_#{coordinator.to.product}"/>
+                <pou:panel id="#{coordinator.to.agent}_#{coordinator.to.product}" toggleable="true"
+                           header="negotiating with #{coordinator.to.agent} on #{coordinator.to.product}">
+                    <pou:toolbar>
+                        <pou:toolbarGroup align="right">
+                            <h:form>
+                                <pou:commandButton value="Show initial values" onclick="(initialValuesDlg_#{coordinator.id}).show();"/>
+                                <pou:commandButton value="Final Result" onclick="(finalDlg_#{coordinator.id}).show();"/>
+                            </h:form>
+                        </pou:toolbarGroup>
+                    </pou:toolbar>
+
+                    <c:forEach items="#{coordinator.offers.toArray()}" var="offer">
+                        <pou:fieldset>
+                            <f:facet name="legend">
+                                Message #{offer.id}
+                                from #{offer.from.agent}.#{offer.from.product}
+                                to #{offer.to.agent}.#{offer.to.product}
+                                Type:#{offer.type}
+                            </f:facet>
+                            <pou:panelGrid>
+                                <f:facet name="header">
+                                    <pou:row>
+                                        <pou:column>
+                                            <h:outputText value="Issue"/>
+                                        </pou:column>
+                                        <pou:column>
+                                            <h:outputText value="Cost"/>
+                                        </pou:column>
+                                    </pou:row>
+                                </f:facet>
+                                <c:forEach items="#{offer.issues}" var="issue">
+                                    <pou:row>
+                                        <pou:column>
+                                            <h:outputText value="#{issue.name}"/>
+                                        </pou:column>
+                                        <pou:column>
+                                            <h:outputText value="#{issue.cost}"/>
+                                        </pou:column>
+                                    </pou:row>
+                                </c:forEach>
+                            </pou:panelGrid>
+                        </pou:fieldset>
+                    </c:forEach>
+                </pou:panel>
+            </c:forEach>
+        </h:form>   
+
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><center>
+            <hr/><font face="ARIAL" size="1">
+                <A href="https://www.facebook.com/pages/Zephyr/169996089736008">Company</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Careers</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Partners</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Advertising</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Help</A><br/><A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">Privacy 
+                    Policy</A>.&nbsp;
+                <A href="https://www.facebook.com/pages/Zephyr/169996089736008">Trademark 
+                    Notices</A>.&nbsp;<A 
+                    href="https://www.facebook.com/pages/Zephyr/169996089736008">User 
+                    Agreement</A><bR/>© 2012 Zephyr, All Rights 
+                Reserved.</font> 
+        </center>
+
+
+    </h:body>
+
+    <h:outputText value="#{productsController.error}"/>
+</html>
